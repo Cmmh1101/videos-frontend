@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Video } from "./VideoModel";
+import { getVideos } from "./VideoService";
 
-interface Props {}
+const VideosList = () => {
+  const [videos, setVideos] = useState<Video[]>([]);
 
-const VideosList = (props: Props) => {
-  return <div>Videos List:</div>;
+  const getAllVideos = async () => {
+    const res = await getVideos();
+    setVideos(res.data);
+    console.log(videos, "videos");
+  };
+
+  useEffect(() => {
+    getAllVideos();
+  }, []);
+
+  return (
+    <div>
+      <h1>Videos List:</h1>
+      {videos.map((video) => {
+        return (
+          <div key={video.id}>
+            <h3>{video.title?.toUpperCase()}</h3>
+            <span>{video.createdAt}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export default VideosList;
