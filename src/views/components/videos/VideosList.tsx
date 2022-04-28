@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Video } from "./VideoModel";
 import { getVideos } from "./VideoService";
+import VideoItem from "./VideoItem";
 
 const VideosList = () => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -20,12 +21,7 @@ const VideosList = () => {
     <div>
       <h1>Videos List:</h1>
       {videos.map((video) => {
-        return (
-          <div key={video.id}>
-            <h3>{video.title?.toUpperCase()}</h3>
-            <span>{video.createdAt}</span>
-          </div>
-        );
+        return <VideoItem video={video} />;
       })}
     </div>
   );
