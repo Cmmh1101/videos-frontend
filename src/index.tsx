@@ -4,7 +4,6 @@ import "@fontsource/poppins";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
-import Layout from "./layout/Layout";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(
