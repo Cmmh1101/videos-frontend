@@ -32,7 +32,9 @@ const VideosList = () => {
       <h1>Videos List:</h1>
 
       {videos.map((video) => {
-        return <VideoItem video={video} key={video._id} />;
+        return (
+          <VideoItem video={video} key={video._id} getVideos={getAllVideos} />
+        );
       })}
     </Row>
   );

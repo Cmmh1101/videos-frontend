@@ -42,14 +42,20 @@ const VideoForm = (props: Props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await videoService.createVideo(video);
-    toast.success("New Video Added");
+
+    if (!params.id) {
+      await videoService.createVideo(video);
+      toast.success("New Video Added");
+      setVideo(initialState);
+    } else {
+      await videoService.updateVideo(params.id, video);
+      toast.success(`Video ${video.title} Updated`);
+    }
     navigate({ pathname: "/" });
-    setVideo(initialState);
   };
 
-  const getVideo = async (id: string) => {
-    const res = await videoService.getVideo(id);
+  const getVideo = async (_id: string) => {
+    const res = await videoService.getVideo(_id);
     const { title, description, url } = res.data;
     setVideo({ title, description, url });
   };
@@ -62,7 +68,9 @@ const VideoForm = (props: Props) => {
     <Row className="create-video">
       <Col xs={12} className="form-col">
         <Card>
-          <CardHeader>Add New Video</CardHeader>
+          <CardHeader>
+            {params.id ? "Update Video" : "Add New Video"}
+          </CardHeader>
           <CardBody>
             <Form onSubmit={handleSubmit}>
               <FormGroup>
@@ -71,6 +79,7 @@ const VideoForm = (props: Props) => {
                   name="title"
                   placeholder="write video title"
                   className="create-input"
+                  value={video.title}
                   onChange={handleInputChange}
                   autoFocus
                 />
@@ -81,6 +90,7 @@ const VideoForm = (props: Props) => {
                   name="url"
                   placeholder="https://somesite.com"
                   className="create-input"
+                  value={video.url}
                   onChange={handleInputChange}
                   autoFocus
                 />
@@ -93,6 +103,7 @@ const VideoForm = (props: Props) => {
                   rows={3}
                   placeholder="write video description"
                   className="create-input"
+                  value={video.description}
                   onChange={handleInputChange}
                   autoFocus
                 />

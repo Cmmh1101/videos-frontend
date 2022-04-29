@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, CardBody, Col } from "reactstrap";
 import ReactPlayer from "react-player/youtube";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteVideo } from "./VideoService";
 
 import { Video } from "./VideoModel";
 
 interface Props {
   video: Video;
+  getVideos: () => void;
 }
 
-const VideoItem = ({ video }: Props) => {
+const VideoItem = ({ video, getVideos }: Props) => {
   const navigate = useNavigate();
+  const params = useParams();
+
+  const handleDelete = async (id: string) => {
+    await deleteVideo(id);
+    getVideos();
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <Col md={4}>
@@ -23,7 +33,12 @@ const VideoItem = ({ video }: Props) => {
             >
               Edit
             </Button>
-            <span className="delete-icon">x</span>
+            <span
+              className="delete-icon"
+              onClick={() => video._id && handleDelete(video._id)}
+            >
+              x
+            </span>
           </Col>
 
           <p>{video.description}</p>
