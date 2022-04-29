@@ -1,5 +1,6 @@
 import React from "react";
 import { Container } from "reactstrap";
+import { ToastContainer } from "react-toastify";
 import AppRouter from "../router/AppRouter";
 import NavBar from "./navbar/NavBar";
 
@@ -20,6 +21,7 @@ const Layout = (props: Props) => {
         <Container fluid className="p-0">
           <AppRouter />
         </Container>
+        <ToastContainer />
       </main>
     </div>
   );

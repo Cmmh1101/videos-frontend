@@ -12,6 +12,7 @@ const AppRouter = (props: Props) => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/newVideo" element={<VideoForm />} />
+        <Route path="/update/:id" element={<VideoForm />} />
 
         {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>

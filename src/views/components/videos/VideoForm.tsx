@@ -1,4 +1,7 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import { url } from "inspector";
+import React, { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Button,
   Card,
@@ -18,11 +21,15 @@ interface Props {}
 type InputChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 const VideoForm = (props: Props) => {
-  const [video, setVideo] = useState<Video>({
+  const navigate = useNavigate();
+  const params = useParams();
+  console.log(params);
+  const initialState = {
     title: "",
     description: "",
     url: "",
-  });
+  };
+  const [video, setVideo] = useState<Video>(initialState);
 
   const handleInputChange = (e: InputChange) => {
     setVideo({
@@ -35,8 +42,21 @@ const VideoForm = (props: Props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await videoService.createVideo(video);
+    await videoService.createVideo(video);
+    toast.success("New Video Added");
+    navigate({ pathname: "/" });
+    setVideo(initialState);
   };
+
+  const getVideo = async (id: string) => {
+    const res = await videoService.getVideo(id);
+    const { title, description, url } = res.data;
+    setVideo({ title, description, url });
+  };
+
+  useEffect(() => {
+    if (params.id) getVideo(params.id);
+  }, []);
 
   return (
     <Row className="create-video">
@@ -77,9 +97,16 @@ const VideoForm = (props: Props) => {
                   autoFocus
                 />
               </FormGroup>
-              <Button type="submit" block color="primary" className="">
-                Create Video
-              </Button>
+
+              {params.id ? (
+                <Button type="submit" block color="info" className="">
+                  Update Video
+                </Button>
+              ) : (
+                <Button type="submit" block color="primary" className="">
+                  Create Video
+                </Button>
+              )}
             </Form>
           </CardBody>
         </Card>
