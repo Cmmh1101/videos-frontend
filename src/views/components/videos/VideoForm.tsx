@@ -67,7 +67,7 @@ const VideoForm = (props: Props) => {
   return (
     <Row className="create-video">
       <Col xs={12} className="form-col">
-        <Card>
+        <Card className="col-6">
           <CardHeader>
             {params.id ? "Update Video" : "Add New Video"}
           </CardHeader>
