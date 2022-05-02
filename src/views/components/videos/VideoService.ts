@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Video } from "./VideoModel";
 
-const API = "http://localhost:5000"
+const API = "http://localhost:5000/api/auth"
 
 export const getVideos = async () => {
     return await axios.get<Video[]>(`${API}/videos`);

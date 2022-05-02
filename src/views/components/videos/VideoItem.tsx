@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Button, Card, CardBody, Col } from "reactstrap";
-import ReactPlayer from "react-player/youtube";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteVideo } from "./VideoService";
 
@@ -43,7 +42,15 @@ const VideoItem = ({ video, getVideos }: Props) => {
 
           <p>{video.description}</p>
           <div className="embed-responsive embed-responsive-16by9 d-flex justify-content-center">
-            <ReactPlayer url={video.url} />
+            <iframe
+              width="560"
+              height="315"
+              src={video.url}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </CardBody>
       </Card>
